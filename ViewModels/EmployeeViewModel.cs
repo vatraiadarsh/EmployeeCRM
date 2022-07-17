@@ -32,7 +32,7 @@ namespace Adarsh.EmployeeCRM.Web.ViewModels
         public string ConfirmEmail { get; set; }
 
         [Required]
-        [DisplayName("Email")]
+        [DisplayName("Contact No")]
         public string ContactNo { get; set; }
 
         [Required]

@@ -50,3 +50,7 @@ insert into departments(Name,Status) values("Human Resource",1);
 insert into departments(Name,Status) values("Customer Support",1);
 insert into departments(Name,Status) values("Payroll",1);
 insert into departments(Name,Status) values("Public Relation",1);
+
+
+insert into employees(FirstName,LastName,Email,ContactNo,DepartmentId,Status)
+values ('Adarsha','Bhattarai','adarsh@gmail.com','0423675432',1,0);

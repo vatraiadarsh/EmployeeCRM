@@ -4,15 +4,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Adarsh.EmployeeCRM.Web.Repositories;
 
 namespace Adarsh.EmployeeCRM.Web.Controllers
 {
     public class EmployeesController : Controller
     {
+        private IDepartmentRepositories drepositories = new DepartmentRepositories();
+        private IEmployeeRepositories erepositories = new EmployeeRepositories();
+
+
         // GET: Employee
         public ActionResult Index()
         {
-            return View();
+            return View(erepositories.GetAll());
         }
 
         // GET: Employee/Details/5
@@ -25,20 +30,14 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         public ActionResult Create()
         {
             EmployeeViewModel evm = new EmployeeViewModel();
-            evm.Departments = new List<SelectListItem>()
-            {
-                new SelectListItem()
-                {
-                    Text = "Accounting",
-                    Value = "1"
-                },
-                new SelectListItem()
-                {
-                    Text="Administration",
-                    Value="2"
-                },
+            evm.Departments = from dept in drepositories.GetAll()
+                              select new SelectListItem
+                              {
+                                  Text = dept.Name,
+                                  Value = dept.Id.ToString()
+                              };
 
-            };
+
             return View(evm);
         }
 
@@ -48,23 +47,27 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                erepositories.Insert(new Models.Employee()
+                {
+                    FirstName = evm.FirstName,
+                    LastName = evm.LastName,
+                    Email = evm.Email,
+                    ContactNo = evm.ContactNo,
+                    DepartmentId = evm.DepartmentId,
+                    Status = evm.Status,
+
+                });
                 return RedirectToAction("Index");
 
             }
-            evm.Departments = new List<SelectListItem>()
-            {
-                new SelectListItem()
-                {
-                    Text = "Accounting",
-                    Value = "1"
-                },
-                new SelectListItem()
-                {
-                    Text="Administration",
-                    Value="2"
-                },
+            evm.Departments = from dept in drepositories.GetAll()
+                                              select new SelectListItem
+                                              {
+                                                  Text = dept.Name,
+                                                  Value = dept.Id.ToString()
+                                              };
 
-            };
+        
             return View(evm);
         }
 
