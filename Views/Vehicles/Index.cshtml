@@ -1,11 +1,40 @@
-﻿@model Adarsh.EmployeeCRM.Web.Models.Vehicle
+﻿@model  IEnumerable<Adarsh.EmployeeCRM.Web.Models.Vehicle>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Vehicles</h2>
 
-<h4>Vehicle No: @Model.VehicleNo</h4>
+<div class="p-4">
+    <a href="~/Vehicles/Create" />
+        <button class="btn btn-md btn-dark">Add</button>
+    </a>
+        
+</div>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Vehicle Number</th>
+            <th>Status</th>
+            <th>Added Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
 
+    <tbody>
+        @foreach (var vehicle in Model)
+        {
+            <tr>
+                <td>@vehicle.Id</td>
+                <td>@vehicle.VehicleNo</td>
+                <td>@vehicle.Status</td>
+                <td>@vehicle.AddedDate</td>
+                <td>Edit Delete</td>
+            </tr>
 
+        }
+
+    </tbody>
+</table>

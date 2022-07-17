@@ -1,0 +1,52 @@
+﻿drop database employee_crm;
+create database employee_crm;
+use employee_crm;
+
+CREATE TABLE vehicles (
+    Id int not null auto_increment primary key,
+    VehicleNo varchar(255) not null,
+    Status tinyint default 0,
+    AddedDate datetime default current_timestamp,
+    ModifiedDate datetime default null on update current_timestamp 
+  
+);
+
+CREATE TABLE departments (
+    Id int not null auto_increment primary key,
+    Name varchar(255) not null,
+    Status tinyint default 0,
+    AddedDate datetime default current_timestamp,
+    ModifiedDate datetime default null on update current_timestamp 
+   
+);
+
+
+
+CREATE TABLE employees (
+    Id int not null auto_increment primary key,
+    FirstName varchar(255) not null,
+    LastName varchar(255) not null,
+    Email varchar(255) not null,
+    ContactNo varchar(255) not null,
+    DepartmentId int,
+    Status tinyint default 0,
+    AddedDate datetime default current_timestamp,
+    ModifiedDate datetime default null on update current_timestamp,
+    foreign key (DepartmentId) references departments(Id)
+   
+);
+
+
+
+
+desc vehicles;
+desc departments;
+desc employees;
+
+
+insert into departments(Name,Status) values("Administration",1);
+insert into departments(Name,Status) values("Accounting",1);
+insert into departments(Name,Status) values("Human Resource",1);
+insert into departments(Name,Status) values("Customer Support",1);
+insert into departments(Name,Status) values("Payroll",1);
+insert into departments(Name,Status) values("Public Relation",1);

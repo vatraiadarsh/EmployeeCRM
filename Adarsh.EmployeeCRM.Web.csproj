@@ -130,14 +130,19 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DriversController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\VehiclesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DepartmentModel.cs" />
+    <Compile Include="Models\EmployeeModel.cs" />
     <Compile Include="Models\VehicleModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="db.sql" />
+    <Compile Include="ViewModels\EmployeeViewModel.cs" />
+    <Compile Include="ViewModels\VehicleViewModel.cs" />
+    <Content Include="db.txt" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -168,6 +173,8 @@
     <Content Include="Views\Shared\Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Vehicles\Index.cshtml" />
+    <Content Include="Views\Vehicles\Create.cshtml" />
+    <Content Include="Views\Employees\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -178,6 +185,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Drivers\" />
+    <Folder Include="Views\Employee\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
