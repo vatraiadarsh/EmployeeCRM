@@ -175,6 +175,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\VehiclesController.cs" />
     <Compile Include="DbUtility\Database.cs" />
+    <Compile Include="DbUtility\DbTemplate.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -222,6 +223,7 @@
     <Content Include="Views\Employees\Create.cshtml" />
     <Content Include="Views\Employees\Index.cshtml" />
     <Content Include="Views\Employees\Edit.cshtml" />
+    <Content Include="Views\Employees\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

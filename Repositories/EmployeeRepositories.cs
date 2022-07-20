@@ -16,75 +16,53 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
     public class EmployeeRepositories : IEmployeeRepositories
     {
         private Database db = new Database();
+        private DbTemplate<Employee> template = new DbTemplate<Employee>(); 
+
+
         public List<Employee> GetAll()
         {
-            List<Employee> employees = new List<Employee>();
-            db.Open();
-            string sql = "select * from Employees";
-            db.InitCommand(sql, System.Data.CommandType.Text);
-            using (MySqlDataReader reader = db.ExecuteReader())
+            string sql = "select * from employees";
+            return template.Query(sql, new EmployeeDataMapper());
+        }
+
+        private class EmployeeDataMapper : IRowMapper<Employee>
+        {
+            public Employee MapRow(IDataReader reader)
             {
-                while (reader.Read())
+                Employee empl = new Employee()
                 {
-                    Employee empl = new Employee()
-                    {
-                        Id = Convert.ToInt32(reader["ID"]),
-                        FirstName = Convert.ToString(reader["FirstName"]),
-                        LastName = Convert.ToString(reader["LastName"]),
-                        Email = Convert.ToString(reader["Email"]),
-                        DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
-                        ContactNo = Convert.ToString(reader["ContactNo"]),
-                        AddedDate = Convert.ToDateTime(reader["AddedDate"]),
-                        Status = Convert.ToBoolean(reader["Status"]),
-                    };
+                    Id = Convert.ToInt32(reader["ID"]),
+                    FirstName = Convert.ToString(reader["FirstName"]),
+                    LastName = Convert.ToString(reader["LastName"]),
+                    Email = Convert.ToString(reader["Email"]),
+                    DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
+                    ContactNo = Convert.ToString(reader["ContactNo"]),
+                    AddedDate = Convert.ToDateTime(reader["AddedDate"]),
+                    Status = Convert.ToBoolean(reader["Status"]),
+                };
 
 
-                    if (!reader.IsDBNull(reader.GetOrdinal("ModifiedDate")))
-                    {
-                        empl.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"]);
-                    }
-                    employees.Add(empl);
+                if (!reader.IsDBNull(reader.GetOrdinal("ModifiedDate")))
+                {
+                    empl.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"]);
                 }
-
+               return empl;
             }
-            db.Close();
-            return employees;
         }
 
         public Employee GetById(int id)
         {
-            Employee employee = null;
-            db.Open();
-            string sql = "select * from Employees where id=@id";
-            db.InitCommand(sql, System.Data.CommandType.Text);
-            db.AddInputParameter("@id", id, DbType.Int32);
-            using (MySqlDataReader reader = db.ExecuteReader())
-            {
-                while (reader.Read())
+            string sql = "select * from employees where id=@id";
+
+            return template.QueryForObject(sql,
+                new MySqlParameter[] {
+                new MySqlParameter()
                 {
-                     employee = new Employee()
-                    {
-                        Id = Convert.ToInt32(reader["ID"]),
-                        FirstName = Convert.ToString(reader["FirstName"]),
-                        LastName = Convert.ToString(reader["LastName"]),
-                        Email = Convert.ToString(reader["Email"]),
-                        DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
-                        ContactNo = Convert.ToString(reader["ContactNo"]),
-                        AddedDate = Convert.ToDateTime(reader["AddedDate"]),
-                        Status = Convert.ToBoolean(reader["Status"]),
-                    };
-
-
-                    if (!reader.IsDBNull(reader.GetOrdinal("ModifiedDate")))
-                    {
-                        employee.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"]);
-                    }
-                   
+                    ParameterName="@Id",
+                    Value=id,
+                    DbType = DbType.Int32,
                 }
-
-            }
-            db.Close();
-            return employee;
+                }, new EmployeeDataMapper());
         }
 
         public int Insert(Employee model)
@@ -107,7 +85,20 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
 
         public int Update(Employee model)
         {
-            throw new NotImplementedException();
+            db.Open();
+            string sql = "update employees set FirstName=@FirstName,LastName=@LastName,Email=@Email,ContactNo=@ContactNo,DepartmentId=@DepartmentId,Status=@Status where id=@Id";
+            db.InitCommand(sql, System.Data.CommandType.Text);
+            db.AddInputParameter("@FirstName", model.FirstName, DbType.AnsiString);
+            db.AddInputParameter("@LastName", model.LastName, DbType.AnsiString);
+            db.AddInputParameter("@Email", model.Email, DbType.AnsiString);
+            db.AddInputParameter("@DepartmentId", model.DepartmentId, DbType.Int32);
+            db.AddInputParameter("@ContactNo", model.ContactNo, DbType.AnsiString);
+            db.AddInputParameter("@Status", model.Status, DbType.Boolean);
+            db.AddInputParameter("@Id", model.Status, DbType.Int32);
+            int result = db.ExecuteNonQuery();
+            Console.WriteLine(result);
+            db.Close();
+            return result;
         }
     }
 }

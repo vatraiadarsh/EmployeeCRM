@@ -5,38 +5,60 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Adarsh.EmployeeCRM.Web.Repositories;
+using Adarsh.EmployeeCRM.Web.Models;
 
 namespace Adarsh.EmployeeCRM.Web.Controllers
 {
     public class EmployeesController : Controller
     {
-        private IDepartmentRepositories drepositories = new DepartmentRepositories();
-        private IEmployeeRepositories erepositories = new EmployeeRepositories();
+        private IDepartmentRepositories dRepositories = new DepartmentRepositories();
+        private IEmployeeRepositories eRepositories = new EmployeeRepositories();
 
 
         // GET: Employee
         public ActionResult Index()
         {
-            return View(erepositories.GetAll());
+            return View(eRepositories.GetAll());
         }
 
         // GET: Employee/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            Employee employee = eRepositories.GetById((int)id);
+            if (employee == null)
+            {
+                return RedirectToAction("Index");
+
+
+            }
+            EmployeeViewModel evm = new EmployeeViewModel()
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Email = employee.Email,
+                ConfirmEmail = employee.Email,
+                ContactNo = employee.ContactNo,
+                DepartmentId = employee.DepartmentId,
+                Status = employee.Status
+            };
+
+            evm.Departments = GetDepartmentList();
+
+
+            return View(evm);
         }
 
         // GET: Employee/Create
         public ActionResult Create()
         {
             EmployeeViewModel evm = new EmployeeViewModel();
-            evm.Departments = from dept in drepositories.GetAll()
-                              select new SelectListItem
-                              {
-                                  Text = dept.Name,
-                                  Value = dept.Id.ToString()
-                              };
-
+            evm.Departments = GetDepartmentList();
 
             return View(evm);
         }
@@ -48,7 +70,7 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                erepositories.Insert(new Models.Employee()
+                eRepositories.Insert(new Models.Employee()
                 {
                     FirstName = evm.FirstName,
                     LastName = evm.LastName,
@@ -61,33 +83,88 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
                 return RedirectToAction("Index");
 
             }
-            evm.Departments = from dept in drepositories.GetAll()
-                                              select new SelectListItem
-                                              {
-                                                  Text = dept.Name,
-                                                  Value = dept.Id.ToString()
-                                              };
+            evm.Departments = GetDepartmentList();
 
-        
+
+
             return View(evm);
         }
 
         // GET: Employee/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
 
-            return View();
+            if(id == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            Employee employee = eRepositories.GetById((int)id);
+            if(employee == null)
+            {
+                return RedirectToAction("Index");
+               
+
+            }
+            EmployeeViewModel evm = new EmployeeViewModel()
+            {
+                Id = employee.Id,
+                FirstName = employee.FirstName,
+                LastName = employee.LastName,
+                Email = employee.Email,
+                ConfirmEmail = employee.Email,
+                ContactNo = employee.ContactNo,
+                DepartmentId = employee.DepartmentId,
+                Status = employee.Status
+            };
+
+            evm.Departments = GetDepartmentList();
+
+
+            return View(evm);
         }
+
+
+        private IEnumerable<SelectListItem> GetDepartmentList()
+        {
+            return from dept in dRepositories.GetAll()
+                   select new SelectListItem
+                   {
+                       Text = dept.Name,
+                       Value = dept.Id.ToString()
+                   };
+        }
+
 
         // POST: Employee/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id,  EmployeeViewModel evm)
         {
             try
             {
-                // TODO: Add update logic here
+                if (ModelState.IsValid)
+                {
+                    eRepositories.Update(new Models.Employee()
+                    {
+                        Id = evm.Id,
+                        FirstName = evm.FirstName,
+                        LastName = evm.LastName,
+                        Email = evm.Email,
+                        ContactNo = evm.ContactNo,
+                        DepartmentId = evm.DepartmentId,
+                        Status = evm.Status,
 
-                return RedirectToAction("Index");
+                    });
+                    return RedirectToAction("Index");
+
+                }
+                evm.Departments = GetDepartmentList();
+
+
+
+                return View(evm);
+
+                
             }
             catch
             {

@@ -56,5 +56,10 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public int Update(Department model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
