@@ -16,6 +16,11 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
     {
         private Database db = new Database();
 
+        public int Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Department> GetAll()
         {
             List<Department> departments = new List<Department>();

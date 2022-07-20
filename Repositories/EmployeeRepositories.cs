@@ -100,5 +100,17 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
             db.Close();
             return result;
         }
+
+        public int Delete(int id)
+        {
+            db.Open();
+            string sql = "delete from employees where id=@Id";
+            db.InitCommand(sql, System.Data.CommandType.Text);
+            db.AddInputParameter("@id", id, DbType.Int32);
+            int result = db.ExecuteNonQuery();
+            Console.WriteLine(result);
+            db.Close();
+            return result;
+        }
     }
 }

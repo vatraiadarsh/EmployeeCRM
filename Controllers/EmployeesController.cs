@@ -134,25 +134,24 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         }
 
         // GET: Employee/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+
+            return Details(id);
         }
 
         // POST: Employee/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int? id, Employee employee)
         {
-            try
+           if(id != null)
             {
-                // TODO: Add delete logic here
-
+                eRepositories.Delete((int)id);
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+           
+           return View(employee);
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
         int Insert(TModel model);
         int Update(TModel model);
 
+        int Delete(int id);
+
 
 
 
