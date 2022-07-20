@@ -43,6 +43,7 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
 
         // POST: Employee/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Create(EmployeeViewModel evm)
         {
             if (ModelState.IsValid)
@@ -74,6 +75,7 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         // GET: Employee/Edit/5
         public ActionResult Edit(int id)
         {
+
             return View();
         }
 

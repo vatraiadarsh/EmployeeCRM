@@ -10,8 +10,9 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
         List<TModel> GetAll();
         TModel GetById(int id);
         int Insert(TModel model);
+        int Update(TModel model);
 
-       
+
 
 
 

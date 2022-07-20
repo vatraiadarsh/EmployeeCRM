@@ -53,7 +53,38 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
 
         public Employee GetById(int id)
         {
-            throw new NotImplementedException();
+            Employee employee = null;
+            db.Open();
+            string sql = "select * from Employees where id=@id";
+            db.InitCommand(sql, System.Data.CommandType.Text);
+            db.AddInputParameter("@id", id, DbType.Int32);
+            using (MySqlDataReader reader = db.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                     employee = new Employee()
+                    {
+                        Id = Convert.ToInt32(reader["ID"]),
+                        FirstName = Convert.ToString(reader["FirstName"]),
+                        LastName = Convert.ToString(reader["LastName"]),
+                        Email = Convert.ToString(reader["Email"]),
+                        DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
+                        ContactNo = Convert.ToString(reader["ContactNo"]),
+                        AddedDate = Convert.ToDateTime(reader["AddedDate"]),
+                        Status = Convert.ToBoolean(reader["Status"]),
+                    };
+
+
+                    if (!reader.IsDBNull(reader.GetOrdinal("ModifiedDate")))
+                    {
+                        employee.ModifiedDate = Convert.ToDateTime(reader["ModifiedDate"]);
+                    }
+                   
+                }
+
+            }
+            db.Close();
+            return employee;
         }
 
         public int Insert(Employee model)
@@ -72,6 +103,11 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
             db.Close();
             return result;
 
+        }
+
+        public int Update(Employee model)
+        {
+            throw new NotImplementedException();
         }
     }
 }
