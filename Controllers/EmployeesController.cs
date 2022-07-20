@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using Adarsh.EmployeeCRM.Web.Repositories;
 using Adarsh.EmployeeCRM.Web.Models;
+using System.Net.Mail;
+using System.Net;
 
 namespace Adarsh.EmployeeCRM.Web.Controllers
 {
@@ -61,6 +63,10 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
             if (ModelState.IsValid)
             {
                 eRepositories.Insert(evm.GetModel());
+                if (evm.Notify)
+                {
+                    SendNotification(evm);
+                }
                 return RedirectToAction("Index");
 
             }
@@ -153,5 +159,29 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
            
            return View(employee);
         }
+
+        public void SendNotification(EmployeeViewModel evm)
+        {
+            MailMessage mailMessage = new MailMessage();
+
+            mailMessage.From = new MailAddress("email address");
+            mailMessage.To.Add(new MailAddress(evm.Email));
+
+            mailMessage.Subject = evm.FirstName + evm.LastName + "Your account has been created";          
+            mailMessage.IsBodyHtml = true;
+            mailMessage.Body = "<h2> Dear" + evm.FirstName + " " + evm.LastName +" </h2> <br/> Your account has been created and you are in -- department";
+
+            SmtpClient client = new SmtpClient();
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.Credentials = new NetworkCredential("email address","password");
+            client.EnableSsl = true;
+            client.Send(mailMessage);
+
+        }
+
     }
+
+
+
 }

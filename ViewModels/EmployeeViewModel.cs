@@ -43,6 +43,7 @@ namespace Adarsh.EmployeeCRM.Web.ViewModels
         public IEnumerable<SelectListItem> Departments { get; set; }
        
         public bool Status { get; set; }
+        public bool Notify { get; set; }
 
         public Employee GetModel()
         {
