@@ -36,17 +36,7 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
 
 
             }
-            EmployeeViewModel evm = new EmployeeViewModel()
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                Email = employee.Email,
-                ConfirmEmail = employee.Email,
-                ContactNo = employee.ContactNo,
-                DepartmentId = employee.DepartmentId,
-                Status = employee.Status
-            };
+            EmployeeViewModel evm = employee.GetViewModel();
 
             evm.Departments = GetDepartmentList();
 
@@ -70,16 +60,7 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                eRepositories.Insert(new Models.Employee()
-                {
-                    FirstName = evm.FirstName,
-                    LastName = evm.LastName,
-                    Email = evm.Email,
-                    ContactNo = evm.ContactNo,
-                    DepartmentId = evm.DepartmentId,
-                    Status = evm.Status,
-
-                });
+                eRepositories.Insert(evm.GetModel());
                 return RedirectToAction("Index");
 
             }
@@ -106,18 +87,7 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
                
 
             }
-            EmployeeViewModel evm = new EmployeeViewModel()
-            {
-                Id = employee.Id,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                Email = employee.Email,
-                ConfirmEmail = employee.Email,
-                ContactNo = employee.ContactNo,
-                DepartmentId = employee.DepartmentId,
-                Status = employee.Status
-            };
-
+            EmployeeViewModel evm = employee.GetViewModel();
             evm.Departments = GetDepartmentList();
 
 
@@ -144,17 +114,8 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    eRepositories.Update(new Models.Employee()
-                    {
-                        Id = evm.Id,
-                        FirstName = evm.FirstName,
-                        LastName = evm.LastName,
-                        Email = evm.Email,
-                        ContactNo = evm.ContactNo,
-                        DepartmentId = evm.DepartmentId,
-                        Status = evm.Status,
-
-                    });
+                    eRepositories.Update(evm.GetModel());
+                    
                     return RedirectToAction("Index");
 
                 }

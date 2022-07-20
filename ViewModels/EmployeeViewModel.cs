@@ -5,6 +5,7 @@ using System.Web;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using Adarsh.EmployeeCRM.Web.Models;
 
 namespace Adarsh.EmployeeCRM.Web.ViewModels
 {
@@ -42,5 +43,19 @@ namespace Adarsh.EmployeeCRM.Web.ViewModels
         public IEnumerable<SelectListItem> Departments { get; set; }
        
         public bool Status { get; set; }
+
+        public Employee GetModel()
+        {
+            return new Employee()
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                ContactNo = ContactNo,
+                DepartmentId = DepartmentId,
+                Status = Status
+            };
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Adarsh.EmployeeCRM.Web.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,6 +18,21 @@ namespace Adarsh.EmployeeCRM.Web.Models
         public DateTime AddedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public bool Status { get; set; }
+
+        public EmployeeViewModel GetViewModel()
+        {
+            return new EmployeeViewModel()
+            {
+                Id = Id,
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                ConfirmEmail = Email,
+                ContactNo = ContactNo,
+                DepartmentId = DepartmentId,
+                Status = Status
+            };
+        }
 
     }
 }
