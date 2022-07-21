@@ -9,6 +9,7 @@ using Adarsh.EmployeeCRM.Web.Models;
 using System.Net.Mail;
 using System.Net;
 using Adarsh.EmployeeCRM.Web.Helpers;
+using System.IO;
 
 namespace Adarsh.EmployeeCRM.Web.Controllers
 {
@@ -188,6 +189,35 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
             client.EnableSsl = true;
             client.Send(mailMessage);
 
+        }
+
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileBase file)
+        {
+            string fileName = Server.MapPath("~/Datas/" + file.FileName);
+            file.SaveAs(fileName);
+           using (StreamReader reader = new StreamReader(fileName))
+            {
+                string line = null;
+                while((line = reader.ReadLine()) != null)
+                {
+                    string[] tokens = line.Split(",".ToCharArray());
+                    if(tokens.Length >= 4)
+                    {
+                        Employee employee = new Employee()
+                        {
+                            FirstName = tokens[0],
+                            LastName = tokens[1],
+                            Email = tokens[2],
+                            ContactNo = tokens[3],
+                            Picture = "",
+                            Status = false
+                        };
+                        eRepositories.Insert(employee);
+                    }
+                }
+            }
+            return RedirectToAction("Index");
         }
 
     }

@@ -6,10 +6,16 @@
 
 
 
-<p class="p-5">
+<p class=" span p-5">
     <button class="btn btn-outline-dark">
         @Html.ActionLink("Create New", "Create")
-        </button>
+     </button>
+   
+    <form method="post" action="~/Employees/Upload" enctype="multipart/form-data">
+        <input required type="file"/>
+        <button type="submit" class="btn btn-outline-dark">Import CSV File</button>
+    </form>
+    
 </p>
 <table class="table">
     <tr>
