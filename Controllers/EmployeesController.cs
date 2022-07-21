@@ -8,6 +8,7 @@ using Adarsh.EmployeeCRM.Web.Repositories;
 using Adarsh.EmployeeCRM.Web.Models;
 using System.Net.Mail;
 using System.Net;
+using Adarsh.EmployeeCRM.Web.Helpers;
 
 namespace Adarsh.EmployeeCRM.Web.Controllers
 {
@@ -62,7 +63,16 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                eRepositories.Insert(evm.GetModel());
+                Employee employee = evm.GetModel();
+                if (evm.Picture.FileName != "")
+                {
+                    if (ImageHelper.IsValidFile(evm.Picture.ContentType)){
+                        string fileName = Guid.NewGuid().ToString() + "." + ImageHelper.GetFileExtension(evm.Picture.ContentType);
+                        evm.Picture.SaveAs(Server.MapPath("~/Uploads/" + fileName));
+                        employee.Picture = fileName;
+                    }
+                }
+                eRepositories.Insert(employee);
                 if (evm.Notify)
                 {
                     SendNotification(evm);

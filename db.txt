@@ -54,3 +54,7 @@ insert into departments(Name,Status) values("Public Relation",1);
 
 insert into employees(FirstName,LastName,Email,ContactNo,DepartmentId,Status)
 values ('Adarsha','Bhattarai','adarsh@gmail.com','0423675432',1,0);
+
+alter table employees add picture varchar(100);
+
+update employees set picture = "";

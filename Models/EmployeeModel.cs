@@ -13,6 +13,8 @@ namespace Adarsh.EmployeeCRM.Web.Models
         public string LastName { get; set; }
         public string Email { get; set; }
         public string ContactNo { get; set; }
+
+        public string Picture { get; set; }
         public int DepartmentId { get; set; }
         public Department Department { get; set; }
         public DateTime AddedDate { get; set; }
@@ -28,8 +30,9 @@ namespace Adarsh.EmployeeCRM.Web.Models
                 LastName = LastName,
                 Email = Email,
                 ConfirmEmail = Email,
-                ContactNo = ContactNo,
+                ContactNo = ContactNo,        
                 DepartmentId = DepartmentId,
+               
                 Status = Status
             };
         }

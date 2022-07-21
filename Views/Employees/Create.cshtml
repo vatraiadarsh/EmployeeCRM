@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Employees", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -52,6 +52,13 @@
             @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Picture, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <input type="file" name="picture" />
+        </div>
+    </div>
+    <br/>
 
     <div class="form-group">
         @Html.LabelFor(model => model.DepartmentId, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -69,21 +76,21 @@
                     @Html.EditorFor(model => model.Status)
                     Employee Status
                 </label>
-               
+
                 @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
             </div>
         </div>
     </div>
     <br />
     <div class="form-group">
-      
+
         <div class="col-md-10">
             <div class="checkbox">
                 <label class="control-label ">
                     @Html.EditorFor(model => model.Notify)
                     Send Notification Email
                 </label>
-               
+
                 @Html.ValidationMessageFor(model => model.Notify, "", new { @class = "text-danger" })
             </div>
         </div>

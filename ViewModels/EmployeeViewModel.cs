@@ -40,6 +40,8 @@ namespace Adarsh.EmployeeCRM.Web.ViewModels
         [DisplayName("Department")]
         public int DepartmentId { get; set; }
 
+        public HttpPostedFileBase Picture { get; set; }
+
         public IEnumerable<SelectListItem> Departments { get; set; }
        
         public bool Status { get; set; }
@@ -55,6 +57,7 @@ namespace Adarsh.EmployeeCRM.Web.ViewModels
                 Email = Email,
                 ContactNo = ContactNo,
                 DepartmentId = DepartmentId,
+               // Picture=Picture,
                 Status = Status
             };
         }

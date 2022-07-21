@@ -37,6 +37,7 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
                     Email = Convert.ToString(reader["Email"]),
                     DepartmentId = Convert.ToInt32(reader["DepartmentId"]),
                     ContactNo = Convert.ToString(reader["ContactNo"]),
+                    Picture = Convert.ToString(reader["Picture"]),
                     AddedDate = Convert.ToDateTime(reader["AddedDate"]),
                     Status = Convert.ToBoolean(reader["Status"]),
                 };
@@ -68,13 +69,14 @@ namespace Adarsh.EmployeeCRM.Web.Repositories
         public int Insert(Employee model)
         {
             db.Open();
-            string sql = "Insert into employees(FirstName,LastName,Email,ContactNo,DepartmentId,Status) values (@FirstName,@LastName,@Email,@ContactNo,@DepartmentId,@Status)";
+            string sql = "Insert into employees(FirstName,LastName,Email,ContactNo,DepartmentId,Picture,Status) values (@FirstName,@LastName,@Email,@ContactNo,@DepartmentId,@Picture,@Status)";
             db.InitCommand(sql,System.Data.CommandType.Text);
             db.AddInputParameter("@FirstName", model.FirstName, DbType.AnsiString);
             db.AddInputParameter("@LastName", model.LastName, DbType.AnsiString);
             db.AddInputParameter("@Email", model.Email, DbType.AnsiString);
             db.AddInputParameter("@DepartmentId", model.DepartmentId, DbType.Int32);
-            db.AddInputParameter("@ContactNo", model.ContactNo, DbType.AnsiString); 
+            db.AddInputParameter("@ContactNo", model.ContactNo, DbType.AnsiString);
+            db.AddInputParameter("@Picture", model.Picture, DbType.AnsiString);
             db.AddInputParameter("@Status", model.Status, DbType.Boolean);
             int result = db.ExecuteNonQuery();
             Console.WriteLine(result);

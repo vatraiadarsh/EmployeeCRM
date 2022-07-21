@@ -13,5 +13,15 @@ namespace Adarsh.EmployeeCRM.Web.Controllers
         {
             return View();
         }
+
+        /*[HttpPost]
+        public string  Index(HttpPostedFileBase picture)
+        {
+            Response.Write(picture.FileName);
+            picture.SaveAs(Server.MapPath("~/Uploads/" + picture.FileName));
+            Response.End();
+            return "";
+        }
+        */
     }
 }

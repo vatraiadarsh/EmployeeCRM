@@ -14,6 +14,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th>
@@ -31,7 +34,7 @@
         <th>
             @Html.DisplayNameFor(model => model.AddedDate)
         </th>
-       
+
         <th>
             @Html.DisplayNameFor(model => model.Status)
         </th>
@@ -40,6 +43,20 @@
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @if (item.Picture != "")
+            {
+                <a href="~/Uploads/@item.Picture" target="_blank">
+                    <img src="~/Uploads/@item.Picture" style="height:100px;width:100px" />
+                </a>
+            }
+            else
+            {
+                <a href="~/Uploads/cat.jpg" target="_blank">
+                    <img src="~/Uploads/cat.jpg" style="height:100px;width:100px" />
+                </a>
+            }
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
         </td>
@@ -62,9 +79,9 @@
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
         </td>
     </tr>
 }
